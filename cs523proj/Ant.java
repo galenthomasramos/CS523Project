@@ -10,6 +10,8 @@ public abstract class Ant {
 	PApplet parent;
 	Circle circle;
 	int color;
+	boolean colonyDuty;
+	Circle colonyDutyLocation;
 
 	public Ant(PApplet _parent, PVector _position, int _radius, int _color) {
 		parent = _parent;
@@ -22,7 +24,24 @@ public abstract class Ant {
 		parent.ellipse(circle.point.getX(),circle.point.getY(), 2*c.radius, 2*c.radius);
 	}
 
-	boolean isColliding(Circle c)
+	public void setOnRole() {
+		colonyDuty = false;
+		colonyDutyLocation = null;
+	}
+
+	public void setColonyDuty(PVector p, float radius) {
+		colonyDutyLocation = new Circle (p.x, p.y, radius);
+		colonyDuty = true;
+	}
+
+	public boolean colonyDutyFulFilled() {
+		if (colonyDutyLocation == null)
+			return false;
+		
+		return isColliding(colonyDutyLocation);
+	}
+
+	public boolean isColliding(Circle c)
 	{
 		float circleDistanceX = abs(circle.point.getX() - c.point.getX());
 		float circleDistanceY = abs(circle.point.getY() - c.point.getY());
